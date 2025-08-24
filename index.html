@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pyaar ka Prashnottari 💖📜</title>
+  <title>Chai Pe Charcha Quiz ☕❤️</title>
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -18,18 +18,6 @@
       padding: 20px;
       overflow: hidden;
     }
-	/* Zigzag divider style */
-.zigzag {
-  width: 100%;
-  height: 20px;
-  background: linear-gradient(135deg, #ff758c 25%, transparent 25%) -10px 0,
-              linear-gradient(225deg, #ff758c 25%, transparent 25%) -10px 0,
-              linear-gradient(315deg, #ff7eb3 25%, transparent 25%),
-              linear-gradient(45deg, #ff7eb3 25%, transparent 25%);
-  background-size: 20px 20px;
-  background-repeat: repeat-x;
-}
-
     @keyframes gradientBG {
       0% {background-position: 0% 50%;}
       50% {background-position: 100% 50%;}
@@ -117,7 +105,17 @@
       transform: scale(1.1);
       box-shadow: 0 0 15px #42e695;
     }
-    /* Floating hearts animation */
+    .zigzag {
+      width: 100%;
+      height: 20px;
+      background: linear-gradient(135deg, #ff758c 25%, transparent 25%) -10px 0,
+                  linear-gradient(225deg, #ff758c 25%, transparent 25%) -10px 0,
+                  linear-gradient(315deg, #ff7eb3 25%, transparent 25%),
+                  linear-gradient(45deg, #ff7eb3 25%, transparent 25%);
+      background-size: 20px 20px;
+      background-repeat: repeat-x;
+    }
+    /* Floating hearts */
     .heart {
       position: fixed;
       bottom: -20px;
@@ -160,6 +158,7 @@
 
     let current = 0;
     let score = 0;
+    let userAnswers = [];
 
     const quizDiv = document.getElementById("quiz");
     const resultDiv = document.getElementById("result");
@@ -175,13 +174,15 @@
       progressBar.style.width = `${(current / questions.length) * 100}%`;
       quizDiv.innerHTML = `
         <div class="question">${q.q}</div>
+        <div class="zigzag"></div>
         <div class="options">
-          ${q.a.map((opt, i) => `<button onclick="choose(${i})">${opt}</button>`).join("")}
+          ${q.a.map((opt, i) => `<button onclick="choose(${i}, '${opt}')">${opt}</button>`).join("")}
         </div>
       `;
     }
 
-    function choose(i) {
+    function choose(i, answer) {
+      userAnswers.push(answer);
       score += i + 1; // simple scoring
       current++;
       showQuestion();
@@ -197,11 +198,13 @@
       else if (score > 15) verdict = "Traditional Charm ✨";
       resultDiv.innerHTML = `<h2>Your Score: ${score}</h2><p>${verdict}</p><p>So… would you join me for chai someday? ☕❤️</p>`;
       launchConfetti();
+      sendToGoogleSheet({ score, answers: userAnswers });
     }
 
     restartBtn.onclick = () => {
       current = 0;
       score = 0;
+      userAnswers = [];
       quizDiv.classList.remove("hidden");
       resultDiv.classList.add("hidden");
       restartBtn.classList.add("hidden");
@@ -218,6 +221,16 @@
         document.body.appendChild(heart);
         setTimeout(() => heart.remove(), 6000);
       }
+    }
+
+    // 🔗 Google Sheets Integration
+    function sendToGoogleSheet(data) {
+      fetch("https://script.google.com/macros/s/AKfycbxPXW3HP4NvX7fazXQcs-haBqIAyneaSQa22A-8arhZG52WJREbP7yP8w5DGTKqsDKV/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+      })
+      .then(res => console.log("Saved to Google Sheet!", res))
+      .catch(err => console.error("Error:", err));
     }
 
     showQuestion();
