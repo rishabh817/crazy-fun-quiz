@@ -131,7 +131,15 @@
       { q: "Festival time favorite?", a: ["Diwali lights ✨", "Holi colors 🌈", "Rakhi sweets 🍬", "Navratri garba 💃"] },
       { q: "At a wedding, what’s your vibe?", a: ["Eat unlimited gulab jamuns 🍮", "Dance on Bollywood songs 💃", "Click family pictures 📸", "Gossip with cousins 😅"] },
       { q: "Which sweet makes you happiest?", a: ["Laddoo 🍬", "Rasgulla 🍥", "Jalebi 🍯", "Barfi 🥥"] },
-      { q: "Final question: If I ask you for chai together someday, what’s your answer?", a: ["Yes ☕❤️", "Let’s see 😇"] }
+      { q: "If we cook together, what’s the dish?", a: ["Parathas 🫓", "Pakoras 🍵", "Paneer curry 🍛", "Halwa 🍨"] },
+      { q: "Who’s more romantic?", a: ["Bollywood heroes 🎬💖", "Me trying to impress you 😅"] },
+      { q: "If we visit a mandir, what would you do first?", a: ["Pray peacefully 🙏", "Ask me to click 20 pictures 📸"] },
+      { q: "After dinner, what’s better?", a: ["Long walk 🌙🚶‍♀️", "Gossip over chai ☕"] },
+      { q: "Shopping time! Where would you spend more?", a: ["Saree shop 👗", "Jewellery shop 💍"] },
+      { q: "If I touch your heart with respect, will you let me steal a smile too?", a: ["Yes 😊", "Maybe 🙈"] },
+      { q: "If I surprise you, what would you prefer?", a: ["Flowers 🌹", "Bangles 💫", "Handwritten shayari ✍️"] },
+      { q: "What makes you feel more cared for?", a: ["Remembering your favorite sweet 🍬", "Remembering your favorite festival 🎉"] },
+      { q: "Final question: If I ask you for chai together someday, what’s your answer?", a: ["Yes ☕❤️", "Let’s see 😇"] },
     ];
 
     let current = 0;
@@ -186,7 +194,7 @@
       let verdict = "Respectful & Sweet 🌸";
       if (score > 8) verdict = "Outrageously Adorable 😍";
       else if (score > 5) verdict = "Traditional Charm ✨";
-      resultDiv.innerHTML = `<h2>${userName}, your Score: ${score}</h2><p>${verdict}</p>`;
+resultDiv.innerHTML = `<h2>${userName}, your Score: ${score}</h2><p>${verdict}</p><p>So… would you join me for chai someday? ☕❤️</p>`;
       sendToGoogleSheet({ name: userName, score, answers: userAnswers });
     }
 
